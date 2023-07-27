@@ -1,5 +1,6 @@
 package com.example.restwithspringbootandjavaerudio;
 
+import com.example.restwithspringbootandjavaerudio.Excepitions.UnsupportedMathOperationException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.concurrent.atomic.AtomicLong;
@@ -13,7 +14,7 @@ public class MathController {
             @PathVariable(value = "numberTwo") String numberTwo
             )throws Exception {
         if(!isNumeric(numberTwo) || !isNumeric(numberTwo)){
-            throw new Exception();
+            throw new UnsupportedMathOperationException("Plese set a numeric value ");
         }
 
         return convertToDouble(numberOne) + convertToDouble(numberTwo);
