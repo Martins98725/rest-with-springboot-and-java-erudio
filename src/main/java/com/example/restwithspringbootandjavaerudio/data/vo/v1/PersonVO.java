@@ -1,14 +1,21 @@
 package com.example.restwithspringbootandjavaerudio.data.vo.v1;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
 import java.io.Serializable;
 import java.util.Objects;
 
-
+@JsonPropertyOrder({"id", "first_Name", "last_Name" ,"gender" ,"address"})
 public class PersonVO implements Serializable {
 
     private Long id;
+    @JsonProperty("first_Name")
     private String firstName;
+    @JsonProperty("last_Name")
     private String lastName;
     private String address;
+
     private String gender;
 
     public PersonVO() {
