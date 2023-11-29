@@ -1,6 +1,7 @@
 package com.example.restwithspringbootandjavaerudio.service;
 
 import com.example.restwithspringbootandjavaerudio.Excepitions.ResorceNotFoundException;
+import com.example.restwithspringbootandjavaerudio.PersonController;
 import com.example.restwithspringbootandjavaerudio.data.vo.v1.PersonVO;
 import com.example.restwithspringbootandjavaerudio.data.vo.v2.PersonVOV2;
 import com.example.restwithspringbootandjavaerudio.mapper.DozerMapper;
@@ -9,7 +10,8 @@ import com.example.restwithspringbootandjavaerudio.model.Person;
 import com.example.restwithspringbootandjavaerudio.repositorys.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import java.util.List;
 import java.util.logging.Logger;
 @Service
@@ -21,11 +23,14 @@ public class PersonService {
     @Autowired
     PersonMapper mapper;
 
-    public PersonVO findById(Long id){
+    public PersonVO findById(Long id) throws Exception{
         logger.info("Finding one person");
 
-       var entity = repository.findById(id).orElseThrow(() -> new ResorceNotFoundException("No records found for this id!!"));
-       return DozerMapper.parseObject(entity, PersonVO.class);
+       var entity = repository.findById(id)
+               .orElseThrow(() -> new ResorceNotFoundException("No records found for this id!!"));
+       PersonVO vo = DozerMapper.parseObject(entity, PersonVO.class);
+       vo.add(linkTo(methodOn(PersonController.class).findById(id)).withSelfRel());
+       return vo;
     }
     public List<PersonVO> findAll(){
         logger.info("Finding all people");
@@ -40,7 +45,7 @@ public class PersonService {
     }
     public PersonVO update(PersonVO person){
         logger.info("create one person");
-        var entity = repository.findById(person.getId()).orElseThrow(() -> new ResorceNotFoundException("No records found for this id!!"));
+        var entity = repository.findById(person.getKey()).orElseThrow(() -> new ResorceNotFoundException("No records found for this id!!"));
         entity.setFirstName(person.getFirstName());
         entity.setLastName(person.getLastName());
         entity.setGender(person.getGender());
