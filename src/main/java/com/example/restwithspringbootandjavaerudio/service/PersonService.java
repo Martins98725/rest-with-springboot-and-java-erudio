@@ -28,30 +28,38 @@ public class PersonService {
 
        var entity = repository.findById(id)
                .orElseThrow(() -> new ResorceNotFoundException("No records found for this id!!"));
-       PersonVO vo = DozerMapper.parseObject(entity, PersonVO.class);
+       var vo = DozerMapper.parseObject(entity, PersonVO.class);
        vo.add(linkTo(methodOn(PersonController.class).findById(id)).withSelfRel());
        return vo;
     }
-    public List<PersonVO> findAll(){
+    public List<PersonVO> findAll() {
         logger.info("Finding all people");
-        return DozerMapper.parseListObject(repository.findAll(), PersonVO.class);
+        var persons =  DozerMapper.parseListObject(repository.findAll(), PersonVO.class);
+        persons.stream().forEach(p -> {
+            try {
+                p.add(linkTo(methodOn(PersonController.class).findById(p.getKey())).withSelfRel());
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
+        return persons;
     }
-    public PersonVO create(PersonVO person){
+    public PersonVO create(PersonVO person) throws Exception {
         logger.info("create one person");
         var entity = DozerMapper.parseObject(person, Person.class);
         var vo = DozerMapper.parseObject(repository.save(entity),  PersonVO.class);
-
+        vo.add(linkTo(methodOn(PersonController.class).findById(vo.getKey())).withSelfRel());
         return vo;
     }
-    public PersonVO update(PersonVO person){
+    public PersonVO update(PersonVO person) throws Exception{
         logger.info("create one person");
         var entity = repository.findById(person.getKey()).orElseThrow(() -> new ResorceNotFoundException("No records found for this id!!"));
         entity.setFirstName(person.getFirstName());
         entity.setLastName(person.getLastName());
         entity.setGender(person.getGender());
         entity.setAddress(person.getAddress());
-
         var vo = DozerMapper.parseObject(repository.save(entity),  PersonVO.class);
+        vo.add(linkTo(methodOn(PersonController.class).findById(vo.getKey())).withSelfRel());
         return vo;
     }
     public void delete(Long id){
@@ -64,7 +72,6 @@ public class PersonService {
         logger.info("create one person");
         var entity = mapper.convertVOToEntity(person);
         var vo = mapper.convertEntityToVO(repository.save(entity));
-
         return vo;
     }
 }
