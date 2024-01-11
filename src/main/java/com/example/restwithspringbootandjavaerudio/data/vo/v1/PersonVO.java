@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @JsonPropertyOrder({"id", "first_Name", "last_Name" ,"gender" ,"address"})
-public class PersonVO extends RepresentationModel<PersonVO> implements Serializable {.
+public class PersonVO extends RepresentationModel<PersonVO> implements Serializable {
     @JsonProperty("id")
     @Mapping("id")
     private Long key;
