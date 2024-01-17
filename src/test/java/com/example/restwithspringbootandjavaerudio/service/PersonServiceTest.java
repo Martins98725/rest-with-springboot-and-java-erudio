@@ -1,4 +1,5 @@
 package com.example.restwithspringbootandjavaerudio.service;
+import com.example.restwithspringbootandjavaerudio.Excepitions.RequeiredObjectIsNullException;
 import com.example.restwithspringbootandjavaerudio.MockPerson;
 import com.example.restwithspringbootandjavaerudio.data.vo.v1.PersonVO;
 import com.example.restwithspringbootandjavaerudio.model.Person;
@@ -12,6 +13,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -58,6 +60,51 @@ class PersonServiceTest {
 
     @Test
     void findAll() {
+        List<Person> list = input.mockEntityList();
+
+
+        //quando houver a chamada findById, ele vai retornar um optionanl de entity
+        when(repository.findAll()).thenReturn(list);
+        var people = service.findAll();
+        assertNotNull(people);
+        assertEquals(14, people.size());
+
+        var personOne = people.get(1);
+
+        //Verifica se é nulo ou não
+        assertNotNull(personOne);
+        assertNotNull(personOne.getKey());
+        assertNotNull(personOne.getLinks());
+        assertTrue(personOne.toString().contains("[</api/person/v1/1>;rel=\"self\"]"));
+        assertEquals("Adress test: 1", personOne.getAddress());
+        assertEquals("First name teste: 1", personOne.getFirstName());
+        assertEquals("Last name teste: 1", personOne.getLastName());
+        assertEquals("Female", personOne.getGender());
+
+        var personFour = people.get(4);
+
+        //Verifica se é nulo ou não
+        assertNotNull(personFour);
+        assertNotNull(personFour.getKey());
+        assertNotNull(personFour.getLinks());
+        assertTrue(personFour.toString().contains("[</api/person/v1/4>;rel=\"self\"]"));
+        assertEquals("Adress test: 4", personFour.getAddress());
+        assertEquals("First name teste: 4", personFour.getFirstName());
+        assertEquals("Last name teste: 4", personFour.getLastName());
+        assertEquals("Male", personFour.getGender());
+
+        var personSeven = people.get(7);
+
+        //Verifica se é nulo ou não
+        assertNotNull(personSeven);
+        assertNotNull(personSeven.getKey());
+        assertNotNull(personSeven.getLinks());
+        assertTrue(personSeven.toString().contains("[</api/person/v1/7>;rel=\"self\"]"));
+        assertEquals("Adress test: 7", personSeven.getAddress());
+        assertEquals("First name teste: 7", personSeven.getFirstName());
+        assertEquals("Last name teste: 7", personSeven.getLastName());
+        assertEquals("Female", personSeven.getGender());
+
     }
 
     @Test
@@ -84,6 +131,18 @@ class PersonServiceTest {
         assertEquals("First name teste: 1", result.getFirstName());
         assertEquals("Last name teste: 1", result.getLastName());
         assertEquals("Female", result.getGender());
+
+    }
+    @Test
+    void createWithNullPerson() throws Exception{
+        Exception exception = assertThrows(RequeiredObjectIsNullException.class, () -> {
+            service.create(null);
+        });
+        String expectedMessage = "It is allowed to persist a null object";
+        String actualdMessage = exception.getMessage();
+
+
+        assertTrue(actualdMessage.contains(expectedMessage));
 
     }
 
@@ -113,6 +172,18 @@ class PersonServiceTest {
         assertEquals("First name teste: 1", result.getFirstName());
         assertEquals("Last name teste: 1", result.getLastName());
         assertEquals("Female", result.getGender());
+    }
+    @Test
+    void updateWithNullPerson(){
+        Exception exception = assertThrows(RequeiredObjectIsNullException.class, () -> {
+            service.update(null);
+        });
+        String expectedMessage = "It is allowed to persist a null object";
+        String actualdMessage = exception.getMessage();
+
+
+        assertTrue(actualdMessage.contains(expectedMessage));
+
     }
 
     @Test

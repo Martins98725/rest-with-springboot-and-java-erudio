@@ -1,5 +1,6 @@
 package com.example.restwithspringbootandjavaerudio.service;
 
+import com.example.restwithspringbootandjavaerudio.Excepitions.RequeiredObjectIsNullException;
 import com.example.restwithspringbootandjavaerudio.Excepitions.ResorceNotFoundException;
 import com.example.restwithspringbootandjavaerudio.PersonController;
 import com.example.restwithspringbootandjavaerudio.data.vo.v1.PersonVO;
@@ -45,6 +46,9 @@ public class PersonService {
         return persons;
     }
     public PersonVO create(PersonVO person) throws Exception {
+        if (person == null){
+            throw new RequeiredObjectIsNullException();
+        }
         logger.info("create one person");
         var entity = DozerMapper.parseObject(person, Person.class);
         var vo = DozerMapper.parseObject(repository.save(entity),  PersonVO.class);
@@ -52,6 +56,9 @@ public class PersonService {
         return vo;
     }
     public PersonVO update(PersonVO person) throws Exception{
+        if (person == null){
+            throw new RequeiredObjectIsNullException();
+        }
         logger.info("create one person");
         var entity = repository.findById(person.getKey()).orElseThrow(() -> new ResorceNotFoundException("No records found for this id!!"));
         entity.setFirstName(person.getFirstName());
