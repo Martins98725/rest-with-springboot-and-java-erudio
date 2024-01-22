@@ -2,7 +2,7 @@ package com.example.restwithspringbootandjavaerudio.service;
 
 import com.example.restwithspringbootandjavaerudio.Excepitions.RequeiredObjectIsNullException;
 import com.example.restwithspringbootandjavaerudio.Excepitions.ResorceNotFoundException;
-import com.example.restwithspringbootandjavaerudio.PersonController;
+import com.example.restwithspringbootandjavaerudio.controllers.PersonController;
 import com.example.restwithspringbootandjavaerudio.data.vo.v1.PersonVO;
 import com.example.restwithspringbootandjavaerudio.data.vo.v2.PersonVOV2;
 import com.example.restwithspringbootandjavaerudio.mapper.DozerMapper;

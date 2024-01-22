@@ -1,0 +1,1 @@
+insert into `books`values(1,'trono de vidro','sarah j','06/08/13');

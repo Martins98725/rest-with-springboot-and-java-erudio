@@ -1,1 +1,0 @@
-INSERT INTO `books` values (1, 'trono de vidro', 'sarah j', '08/06/13');

@@ -1,4 +1,4 @@
-package com.example.restwithspringbootandjavaerudio;
+package com.example.restwithspringbootandjavaerudio.controllers;
 
 import com.example.restwithspringbootandjavaerudio.data.vo.v1.PersonVO;
 import com.example.restwithspringbootandjavaerudio.data.vo.v2.PersonVOV2;
