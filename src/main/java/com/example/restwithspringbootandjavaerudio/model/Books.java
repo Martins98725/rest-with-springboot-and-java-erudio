@@ -2,11 +2,12 @@ package com.example.restwithspringbootandjavaerudio.model;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = "books")
-public class Books {
+public class Books implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
