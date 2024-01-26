@@ -15,7 +15,7 @@ public class Books implements Serializable {
     private String name;
     @Column(length = 40, nullable = false)
     private String author;
-    @Column(length = 8, nullable = false)
+    @Column(name = "publicate_date",length = 8, nullable = false)
     private String publicationDate;
 
     public Books() {

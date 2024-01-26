@@ -8,7 +8,7 @@ public class RequeiredObjectIsNullException extends RuntimeException {
     private static final long serialVersionUID = 1L;
 
     public RequeiredObjectIsNullException() {
-        super("It is allowed to persist a null object");
+        super("It isn`t allowed to persist a null object");
     }
 
 }
