@@ -138,7 +138,7 @@ class PersonServiceTest {
         Exception exception = assertThrows(RequeiredObjectIsNullException.class, () -> {
             service.create(null);
         });
-        String expectedMessage = "It is allowed to persist a null object";
+        String expectedMessage = "It isn`t allowed to persist a null object";
         String actualdMessage = exception.getMessage();
 
 
@@ -178,7 +178,7 @@ class PersonServiceTest {
         Exception exception = assertThrows(RequeiredObjectIsNullException.class, () -> {
             service.update(null);
         });
-        String expectedMessage = "It is allowed to persist a null object";
+        String expectedMessage = "It isn`t allowed to persist a null object";
         String actualdMessage = exception.getMessage();
 
 
