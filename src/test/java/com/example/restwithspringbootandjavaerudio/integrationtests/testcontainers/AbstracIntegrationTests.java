@@ -15,9 +15,9 @@ import java.util.stream.Stream;
 @ContextConfiguration(initializers = AbstracIntegrationTests.Initializer.class)
 public class AbstracIntegrationTests {
     static MySQLContainer<?> mysql = new MySQLContainer<>("mysql:8.0.34");
-    public class Initializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
+    static class Initializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
         private static void startContainers(){
-            Startables.deepStart((Collection<? extends Startable>) Stream.of(mysql)).join();
+            Startables.deepStart(Stream.of(mysql)).join();
         }
 
         private static Map<String, String> createConnectionConfiguration(){

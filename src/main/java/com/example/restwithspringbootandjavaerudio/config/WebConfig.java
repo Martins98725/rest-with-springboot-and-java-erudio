@@ -16,8 +16,6 @@ public class WebConfig implements WebMvcConfigurer {
     public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
         converters.add(new YamlJacksonTwoHttpMessageConverter());
     }
-
-
     @Override
     public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
         //via query param
